@@ -43,30 +43,30 @@ def login_required(test):
 
 @app.route('/')
 def home():
-    return render_template('pages/placeholder.home.html')
+    return render_template('index.html')
 
 
-@app.route('/about')
-def about():
-    return render_template('pages/placeholder.about.html')
+# @app.route('/about')
+# def about():
+#     return render_template('pages/placeholder.about.html')
 
 
-@app.route('/login')
-def login():
-    form = LoginForm(request.form)
-    return render_template('forms/login.html', form=form)
+# @app.route('/login')
+# def login():
+#     form = LoginForm(request.form)
+#     return render_template('forms/login.html', form=form)
 
 
-@app.route('/register')
-def register():
-    form = RegisterForm(request.form)
-    return render_template('forms/register.html', form=form)
+# @app.route('/register')
+# def register():
+#     form = RegisterForm(request.form)
+#     return render_template('forms/register.html', form=form)
 
 
-@app.route('/forgot')
-def forgot():
-    form = ForgotForm(request.form)
-    return render_template('forms/forgot.html', form=form)
+# @app.route('/forgot')
+# def forgot():
+#     form = ForgotForm(request.form)
+#     return render_template('forms/forgot.html', form=form)
 
 # Error handlers.
 
