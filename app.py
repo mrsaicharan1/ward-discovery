@@ -2,12 +2,15 @@
 # Imports
 #----------------------------------------------------------------------------#
 
-from flask import Flask, render_template, request
-# from flask.ext.sqlalchemy import SQLAlchemy
+from flask import Flask, render_template, request, flash
+from flask_sqlalchemy import SQLAlchemy
 import logging
 from logging import Formatter, FileHandler
+from helpers import generate_uuid
 from forms import *
 import os
+import bcrypt
+import boto3
 
 #----------------------------------------------------------------------------#
 # App Config.
@@ -15,27 +18,9 @@ import os
 
 app = Flask(__name__)
 app.config.from_object('config')
-#db = SQLAlchemy(app)
+db = SQLAlchemy(app)
 
-# Automatically tear down SQLAlchemy.
-'''
-@app.teardown_request
-def shutdown_session(exception=None):
-    db_session.remove()
-'''
-
-# Login required decorator.
-'''
-def login_required(test):
-    @wraps(test)
-    def wrap(*args, **kwargs):
-        if 'logged_in' in session:
-            return test(*args, **kwargs)
-        else:
-            flash('You need to login first.')
-            return redirect(url_for('login'))
-    return wrap
-'''
+dynamodb = boto3.resource('dynamodb')
 #----------------------------------------------------------------------------#
 # Controllers.
 #----------------------------------------------------------------------------#
@@ -46,9 +31,60 @@ def home():
     return render_template('index.html')
 
 
-# @app.route('/about')
-# def about():
-#     return render_template('pages/placeholder.about.html')
+@app.route('/signup', methods=['POST','GET'])
+def signup():
+    if request.method == 'POST':
+        if request.form['user_type'] == 'Seeker':
+            table = dynamodb.Table('Users')
+            user = table.get_item(
+                key = {
+                    'email': request.form.data,
+                }
+            )
+            if user is None:
+                hashed_password = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt(10))
+                table.put_item(
+                Item={
+                        'hospital_name': request.form['hospital_name'],
+                        'hospital_id': generate_uuid(),
+                        'password': hashed_passwords,
+                        'email': request.form['email'],
+                        'address': request.form['address'],
+                    }
+                )
+                flash('Signup Successful')
+        elif request.form['user_type'] == 'Provider':
+            table = dynamodb.Table('Providers')
+            user = table.get_item(
+                key = {
+                    'email': request.form.data,
+                }
+            )
+            if user is None:
+                hashed_password = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt(10))
+                table.put_item(
+                Item={
+                        'hospital_name': request.form['hospital_name'],
+                        'hospital_id': generate_uuid(),
+                        'password': hashed_passwords,
+                        'email': request.form['email'],
+                        'address': request.form['address'],
+                    }
+                )
+                flash('Signup Successful')
+            else:
+                flash('This account already exists')
+    return render_template('forms/signup.html')
+
+
+@app.route('/seeker/login')
+def seeker_login():
+    pass
+
+@app.route('/provider/login')
+def provider_login():
+    if request.method == 'POST':
+        pass
 
 
 # @app.route('/login')
