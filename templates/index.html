@@ -18,8 +18,8 @@
     <link href="{{ url_for('static', filename='css/css/owl.carousel.min.css') }}" rel="stylesheet">
 <!-- 
     <link rel="stylesheet" href="css/owl.carousel.min.css"> -->
-  
-    <link rel="stylesheet" href="css/css/owl.theme.default.min.css">
+    <link href="{{ url_for('static', filename='css/css/owl.theme.default.min.css') }}" rel="stylesheet">
+
     <link href="{{ url_for('static', filename='css/css/bootstrap-datepicker.css') }}" rel="stylesheet">
     <!-- <link rel="stylesheet" href="css/bootstrap-datepicker.css"> -->
   
@@ -57,7 +57,7 @@
     <div class="site-navbar-wrap js-site-navbar bg-white">
       
       <div class="container">
-        <div class="site-navbar bg-light">
+        <div class="site-navbar bg-dark">
           <div class="py-1">
             <div class="row align-items-center">
               <div class="col-2">
@@ -645,20 +645,32 @@
     </footer>
   </div>
 
-  <script src="js/js/jquery-3.3.1.min.js"></script>
-  <script src="js/js/jquery-migrate-3.0.1.min.js"></script>
-  <script src="js/js/jquery-ui.js"></script>
-  <script src="js/js/popper.min.js"></script>
-  <script src="js/js/bootstrap.min.js"></script>
-  <script src="js/js/owl.carousel.min.js"></script>
-  <script src="js/js/jquery.stellar.min.js"></script>
-  <script src="js/js/jquery.countdown.min.js"></script>
-  <script src="js/js/jquery.magnific-popup.min.js"></script>
-  <script src="js/js/bootstrap-datepicker.min.js"></script>
-  <script src="js/js/aos.js"></script>
 
-  <script src="/static/css/vendor/jquery/jquery.min.js"></script>
-  <script src="/static/css/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <link href="{{ url_for('static', filename='js/js/jquery-3.3.1.min.js') }}" rel="stylesheet">
+
+  <link href="{{ url_for('static', filename='js/js/jquery-migrate-3.0.1.min.js') }}" rel="stylesheet">
+
+  <link href="{{ url_for('static', filename='js/js/jquery-ui.js') }}" rel="stylesheet">
+
+  <link href="{{ url_for('static', filename='js/js/popper.min.js') }}" rel="stylesheet">
+
+  <link href="{{ url_for('static', filename='js/js/bootstrap.min.js') }}" rel="stylesheet">
+
+  <link href="{{ url_for('static', filename='js/js/owl.carousel.min.js') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='js/js/jquery.stellar.min.js') }}" rel="stylesheet">
+
+
+  <link href="{{ url_for('static', filename='js/js/jquery.countdown.min.js') }}" rel="stylesheet">
+
+  <link href="{{ url_for('static', filename='js/js/jquery.magnific-popup.min.js') }}" rel="stylesheet">
+
+  <link href="{{ url_for('static', filename='js/js/bootstrap-datepicker.min.js') }}" rel="stylesheet">
+
+  <link href="{{ url_for('static', filename='js/js/aos.js') }}" rel="stylesheet">
+
+  <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" media="screen">
+  <link href="{{ url_for('static', filename='css/css/vendor/jquery/jquery.min.js') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/css/vendor/bootstrap/js/bootstrap.bundle.min.js') }}" rel="stylesheet">
   <script src="js/js/mediaelement-and-player.min.js"></script>
 
   <script src="js/js/main.js"></script>
