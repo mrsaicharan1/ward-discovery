@@ -45,6 +45,12 @@ def provider_signup():
         except Exception as e:
             table = dynamodb.Table('provider')
             hashed_password = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt(10))
+            wards_availble = int(request.form['wards_available'])
+            wards_dict = dict()
+            for ward in range(wards_availble):
+                ward_id = generate_uuid()
+                wards_dict[ward_id] = 1
+            
             table.put_item(
             Item={
                     'name': request.form['name'],
@@ -52,6 +58,7 @@ def provider_signup():
                     'password': hashed_password,
                     'email': request.form['email'],
                     'address': request.form['address'],
+                    'wards': wards_dict
                 }
             )
             # ID generation for wards
