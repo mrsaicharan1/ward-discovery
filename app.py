@@ -12,6 +12,7 @@ import os
 import bcrypt
 import boto3
 from boto3.dynamodb.conditions import Key, Attr
+from batch_write import batch_write_ddb
 import traceback
 #----------------------------------------------------------------------------#
 # App Config.
@@ -31,6 +32,15 @@ dynamodb = boto3.resource('dynamodb')
 def home():
     return render_template('index.html')
 
+
+@app.route('/find-wards', methods=['POST','GET'])
+def find_wards():
+    table = dynamodb.Table('provider')
+
+
+    return render_template('index.html')
+
+
 @app.route('/provider-signup', methods=['POST','GET'])
 def provider_signup():
     if request.method == 'POST':
@@ -46,22 +56,28 @@ def provider_signup():
             table = dynamodb.Table('provider')
             hashed_password = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt(10))
             wards_availble = int(request.form['wards_available'])
+            # ID generation for wards
             wards_dict = dict()
             for ward in range(wards_availble):
                 ward_id = generate_uuid()
                 wards_dict[ward_id] = 1
-            
+            provider_id = generate_uuid()
             table.put_item(
             Item={
                     'name': request.form['name'],
-                    'provider_id': generate_uuid(),
+                    'provider_id': provider_id,
                     'password': hashed_password,
                     'email': request.form['email'],
                     'address': request.form['address'],
                     'wards': wards_dict
                 }
             )
-            # ID generation for wards
+            # ward ids pushed to DDB table
+            try:
+                batch_write_ddb(provider_id ,wards_dict.keys())
+            except Exception as e:
+                print('DDB Batch write failed due to {}'.format(e))
+                
 
             print('Signup Successful')
     return render_template('forms/provider_signup.html')
@@ -89,6 +105,7 @@ def seeker_signup():
                     'address': request.form['address'],
                 }
             )
+
             print('Signup Successful')
     return render_template('forms/seeker_signup.html')
 
